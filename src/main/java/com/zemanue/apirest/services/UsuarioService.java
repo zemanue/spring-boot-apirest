@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.zemanue.apirest.exceptions.UsuarioNotFoundException;
 import com.zemanue.apirest.models.Usuario;
 import com.zemanue.apirest.repositories.UsuarioRepository;
 
@@ -26,7 +27,12 @@ public class UsuarioService {
 
     // OBTENER UN USUARIO POR ID
     public Usuario getUsuarioById(Long id) {
-        return usuarioRepository.findById(id).orElse(null);
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException("El usuario con ID " + id + " no existe"));
+    }
+    
+    public Usuario getUsuarioByNombre(String nombre) {
+        return usuarioRepository.findUserByNombre(nombre).orElseThrow(() -> new UsuarioNotFoundException("El usuario con nombre " + nombre + " no existe"));
     }
 
     // CREAR UN NUEVO USUARIO
@@ -40,11 +46,14 @@ public class UsuarioService {
             usuarioActualizado.setId(id);
             return usuarioRepository.save(usuarioActualizado);
         }
-        return null; // O lanzar una excepción si el usuario no existe
+        throw new UsuarioNotFoundException("No se puede actualizar. El usuario con ID " + id + " no existe");
     }
 
     // ELIMINAR UN USUARIO POR ID
     public void deleteUsuario(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new UsuarioNotFoundException("No se puede eliminar. El usuario con ID " + id + " no existe");
+        }
         usuarioRepository.deleteById(id);
     }
     
@@ -60,7 +69,7 @@ public class UsuarioService {
 
     // COMPROBAR SI UN USUARIO EXISTE POR NOMBRE
     public boolean existsByNombre(String nombre) {
-        return usuarioRepository.findUserByNombre(nombre) != null;
+        return usuarioRepository.findUserByNombre(nombre).isPresent();
         // return usuarioRepository.findAll().stream()
         //         .anyMatch(usuario -> usuario.getNombre().equalsIgnoreCase(nombre));
     }
