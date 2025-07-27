@@ -70,8 +70,6 @@ public class UsuarioService {
     // COMPROBAR SI UN USUARIO EXISTE POR NOMBRE
     public boolean existsByNombre(String nombre) {
         return usuarioRepository.findUserByNombre(nombre).isPresent();
-        // return usuarioRepository.findAll().stream()
-        //         .anyMatch(usuario -> usuario.getNombre().equalsIgnoreCase(nombre));
     }
 
 }
