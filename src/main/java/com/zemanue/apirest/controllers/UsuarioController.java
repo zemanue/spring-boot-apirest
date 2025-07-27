@@ -43,13 +43,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuario);
     }
 
-    // GET /api/usuarios/buscar?nombre={nombre} - Obtener un usuario por nombre
-    @GetMapping("/{nombre}")
-    public ResponseEntity<Usuario> getUsuarioByNombre(@RequestParam String nombre) {
-        Usuario usuario = usuarioService.getUsuarioByNombre(nombre);
-        return ResponseEntity.ok(usuario);
-    }
-
     // POST /api/usuarios - Crear un nuevo usuario
     @PostMapping("/create") 
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
