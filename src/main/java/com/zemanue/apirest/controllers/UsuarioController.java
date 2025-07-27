@@ -44,7 +44,7 @@ public class UsuarioController {
     }
 
     // POST /api/usuarios - Crear un nuevo usuario
-    @PostMapping("/create") 
+    @PostMapping 
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
         Usuario nuevoUsuario = usuarioService.createUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
@@ -52,7 +52,7 @@ public class UsuarioController {
     }
 
     // PUT /api/usuarios/{id} - Actualizar un usuario existente
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         Usuario usuarioActualizado = usuarioService.updateUsuario(id, usuario);
         return ResponseEntity.ok(usuarioActualizado);
@@ -60,7 +60,7 @@ public class UsuarioController {
     }
 
     // DELETE /api/usuarios/{id} - Eliminar un usuario por ID
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);
         return ResponseEntity.noContent().build();
@@ -71,13 +71,6 @@ public class UsuarioController {
     @GetMapping("/{id}/exists")
     public ResponseEntity<Boolean> existsById(@PathVariable Long id) {
         boolean exists = usuarioService.existsById(id);
-        return ResponseEntity.ok(exists);
-    }
-
-    // GET /api/usuarios/exists?nombre={nombre} - Verificar si un usuario existe por nombre
-    @GetMapping("/exists")
-    public ResponseEntity<Boolean> existsByNombre(@RequestParam String nombre) {
-        boolean exists = usuarioService.existsByNombre(nombre);
         return ResponseEntity.ok(exists);
     }
 }
