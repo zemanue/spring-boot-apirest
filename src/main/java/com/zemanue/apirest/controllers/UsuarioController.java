@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zemanue.apirest.exceptions.UsuarioNotFoundException;
 import com.zemanue.apirest.models.Usuario;
 import com.zemanue.apirest.services.UsuarioService;
 
@@ -39,8 +40,12 @@ public class UsuarioController {
     // GET /api/usuarios/{id} - Obtener un usuario por ID
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
-        Usuario usuario = usuarioService.getUsuarioById(id);
-        return ResponseEntity.ok(usuario);
+        try {
+            Usuario usuario = usuarioService.getUsuarioById(id);
+            return ResponseEntity.ok(usuario);
+        } catch (UsuarioNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // POST /api/usuarios - Crear un nuevo usuario
@@ -54,17 +59,25 @@ public class UsuarioController {
     // PUT /api/usuarios/{id} - Actualizar un usuario existente
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Usuario usuarioActualizado = usuarioService.updateUsuario(id, usuario);
-        return ResponseEntity.ok(usuarioActualizado);
-        // Equivalente: return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
+        try {
+            Usuario usuarioActualizado = usuarioService.updateUsuario(id, usuario);
+            return ResponseEntity.ok(usuarioActualizado);
+            // Equivalente: return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
+        } catch (UsuarioNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // DELETE /api/usuarios/{id} - Eliminar un usuario por ID
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
-        usuarioService.deleteUsuario(id);
-        return ResponseEntity.noContent().build();
-        // Equivalente: return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            usuarioService.deleteUsuario(id);
+            return ResponseEntity.noContent().build();
+            // Equivalente: return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (UsuarioNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // GET /api/usuarios/{id}/exists - Verificar si un usuario existe por ID
