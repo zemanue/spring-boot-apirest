@@ -28,13 +28,9 @@ public class UsuarioService {
     // OBTENER UN USUARIO POR ID
     public Usuario getUsuarioById(Long id) {
         return usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNotFoundException("El usuario con ID " + id + " no existe"));
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
     }
     
-    public Usuario getUsuarioByNombre(String nombre) {
-        return usuarioRepository.findUserByNombre(nombre).orElseThrow(() -> new UsuarioNotFoundException("El usuario con nombre " + nombre + " no existe"));
-    }
-
     // CREAR UN NUEVO USUARIO
     public Usuario createUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
