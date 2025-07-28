@@ -4,15 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zemanue.apirest.exceptions.UsuarioNotFoundException;
 import com.zemanue.apirest.models.Usuario;
@@ -21,7 +13,7 @@ import com.zemanue.apirest.services.UsuarioService;
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
-    
+
     private final UsuarioService usuarioService;
 
     // Constructor injection (no @Autowired needed)
@@ -49,7 +41,7 @@ public class UsuarioController {
     }
 
     // POST /api/usuarios - Crear un nuevo usuario
-    @PostMapping 
+    @PostMapping
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
         Usuario nuevoUsuario = usuarioService.createUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
