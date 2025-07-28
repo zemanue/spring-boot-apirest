@@ -24,5 +24,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     // Spring Data JPA genera automáticamente una implementación para este método: una consulta que busque por entidades donde el campo "nombre" coincida con el valor proporcionado
     // Se usa Optional para manejar el caso en que no se encuentre el usuario
     Optional<Usuario> findUserByNombre(String nombre);
+    
+    // Método para encontrar un usuario por su email
+    Optional<Usuario> findByEmail(String email);
 
 }
